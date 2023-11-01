@@ -1,16 +1,25 @@
 const mongoose = require('mongoose');
-
+const author = require("./Author");
 const bookSchema = new mongoose.Schema({
   title: String,
-  author: String,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author', // Référence au modèle 'Author'
+  },
+  Category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category', // Référence au modèle 'Category'
+  },
   publicationYear: Number,
   ISBN: {
     type: String,
-    unique: true, 
+    unique: true,
   },
 });
 
 const Book = mongoose.model('Book', bookSchema);
+
+module.exports = Book;
 
 const createBook = async (bookData) => {
   try {
@@ -18,7 +27,7 @@ const createBook = async (bookData) => {
     const savedBook = await book.save();
     return savedBook;
   } catch (error) {
-    throw new Error('Erreur lors de la création du livre.');
+    throw new Error("Erreur lors de la création du livre.");
   }
 };
 
@@ -55,9 +64,4 @@ const deleteBook = async (ISBN) => {
   }
 };
 
-module.exports = {
-  createBook,
-  getAllBooks,
-  updateBook,
-  deleteBook,
-};
+

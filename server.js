@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose  = require('mongoose');
 const bookController = require('./Controllers/bookController');
+const authorController = require('./Controllers/authorController');
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -17,6 +18,7 @@ const normalizePort = val => {
 
 app.use(express.json());
 app.use('/api', bookController); 
+app.use('/api', authorController); 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
